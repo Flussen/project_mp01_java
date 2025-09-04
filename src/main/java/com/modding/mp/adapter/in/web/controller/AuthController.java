@@ -1,0 +1,26 @@
+package com.modding.mp.adapter.in.web.controller;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.modding.mp.adapter.in.web.request.RegisterRequest;
+import com.modding.mp.application.usecase.RegisterUserUseCase;
+import com.modding.mp.domain.model.Email;
+
+@RestController @RequestMapping("/auth")
+public class AuthController {
+    private final RegisterUserUseCase register;
+    private final PasswordEncoder encoder;
+
+    public AuthController(RegisterUserUseCase register, PasswordEncoder encoder){
+        this.register = register; this.encoder = encoder;
+    }
+
+    public ResponseEntity<?> register(@RequestBody RegisterRequest req) {
+        var id = register.handle(new Email(req.email()), encoder.encode(req.password()));
+        return ResponseEntity.ok().body(id.value().toString());
+    }
+}

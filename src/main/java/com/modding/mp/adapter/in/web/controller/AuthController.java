@@ -1,5 +1,6 @@
 package com.modding.mp.adapter.in.web.controller;
 
+import org.apache.catalina.connector.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -7,8 +8,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.modding.mp.adapter.in.web.request.RegisterRequest;
+import com.modding.mp.adapter.in.web.response.StandardResponse;
 import com.modding.mp.application.usecase.RegisterUserUseCase;
 import com.modding.mp.domain.model.Email;
+import org.springframework.web.bind.annotation.PostMapping;
+
 
 @RestController @RequestMapping("/auth")
 public class AuthController {
@@ -19,8 +23,9 @@ public class AuthController {
         this.register = register; this.encoder = encoder;
     }
 
-    public ResponseEntity<?> register(@RequestBody RegisterRequest req) {
+    @PostMapping("register")
+    public ResponseEntity<StandardResponse<String>> register(@RequestBody RegisterRequest req) {
         var id = register.handle(new Email(req.email()), encoder.encode(req.password()));
-        return ResponseEntity.ok().body(id.value().toString());
+        return ResponseEntity.ok(StandardResponse.okMsg(id.toString()));
     }
 }

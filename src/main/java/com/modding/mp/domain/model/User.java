@@ -11,7 +11,7 @@ import lombok.Setter;
 public class User {
     private final UserId id;
     private Email email;
-    private String passwordHash;
+    private String passwordHash; 
     private boolean enabled;
     private String discordId;
     private final Set<String> roles;

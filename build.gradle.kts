@@ -4,9 +4,9 @@ plugins {
 	id("io.spring.dependency-management") version "1.1.7"
 }
 
-group = "com.modding"
+group = "com.royeer-modding"
 version = "0.0.1-SNAPSHOT"
-description = "Demo project for Spring Boot"
+description = "Demo project for royeer-modding"
 
 java {
 	toolchain {

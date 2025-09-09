@@ -9,6 +9,7 @@ public final class UserMapper {
     public static User toDomain(UserEntity e) {
         return new User(
             new UserId(e.getId()),
+            e.getUsername(),
             new Email(e.getEmail()),
             e.getPasswordHash(),
             e.isEnabled(),
@@ -19,6 +20,7 @@ public final class UserMapper {
 
     public static UserEntity toEntity(User u) {
         var e = new UserEntity();
+        e.setUsername(u.getUsername());
         e.setEmail(u.getEmail().value());
         e.setPasswordHash(u.getPasswordHash());
         e.setEnabled(u.isEnabled());

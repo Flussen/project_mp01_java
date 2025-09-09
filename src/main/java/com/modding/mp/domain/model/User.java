@@ -10,6 +10,7 @@ import lombok.Setter;
 @Setter
 public class User {
     private UserId id;
+    private String username;
     private Email email;
     private String passwordHash; 
     private boolean enabled;
@@ -17,16 +18,17 @@ public class User {
     private final Set<String> roles;
     private final Instant createdAt;
 
-    public User(UserId id, Email email, String passwordHash, boolean enabled, String discordId, Set<String> roles, Instant createdAt) {
+    public User(UserId id, String username, Email email, String passwordHash, boolean enabled, String discordId, Set<String> roles, Instant createdAt) {
         if (roles == null || roles.isEmpty()) throw new IllegalArgumentException("rol_required");
         this.id = id;
+        this.username = username;
         this.email = email; this.passwordHash = passwordHash;
         this.enabled = enabled; this.discordId = discordId;
         this.roles = Set.copyOf(roles);
         this.createdAt = createdAt;
     }
 
-    public User(Email email, String passwordHash, boolean enabled, String discordId, Set<String> roles, Instant createdAt) {
+    public User(Email email, String username, String passwordHash, boolean enabled, String discordId, Set<String> roles, Instant createdAt) {
         if (roles == null || roles.isEmpty()) throw new IllegalArgumentException("rol_required");
         this.email = email; this.passwordHash = passwordHash;
         this.enabled = enabled; this.discordId = discordId;

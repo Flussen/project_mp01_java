@@ -1,5 +1,6 @@
 package com.modding.mp.adapter.in.web.controller;
 
+import org.glassfish.jaxb.core.api.impl.NameConverter.Standard;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,9 +25,11 @@ public class AuthController {
         this.register = register; this.encoder = encoder;
     }
 
+    // public ResponseEntity<StandardResponse<String>> login(L)
+
     @PostMapping("/register")
     public ResponseEntity<StandardResponse<String>> register(@RequestBody RegisterRequest req) {
-        UserId id = register.handle(new Email(req.email()), encoder.encode(req.password()));
+        UserId id = register.handle(req.username(), new Email(req.email()), encoder.encode(req.password()));
         return ResponseEntity.ok(StandardResponse.okMsg(id.toString()));
     }
 }

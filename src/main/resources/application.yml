@@ -1,9 +1,11 @@
 server:
     port: 8080
+    servlet:
+        context-path: /v1
 
 spring:
     datasource:
-        url: jdbc:postgresql://localhost:5432/mydb
+        url: jdbc:postgresql://localhost:5432/modding
         username: admin
         password: admin
         driver-class-name: org.postgresql.Driver
@@ -19,4 +21,4 @@ logging:
     level:
         root: INFO
         org.springframework.security: DEBUG
-        org.hibarnate.SQL: DEBUG
+        org.hibernate.SQL: DEBUG

@@ -10,6 +10,8 @@ import com.modding.mp.adapter.in.web.request.RegisterRequest;
 import com.modding.mp.adapter.in.web.response.StandardResponse;
 import com.modding.mp.application.usecase.RegisterUserUseCase;
 import com.modding.mp.domain.model.Email;
+import com.modding.mp.domain.model.UserId;
+
 import org.springframework.web.bind.annotation.PostMapping;
 
 
@@ -22,9 +24,9 @@ public class AuthController {
         this.register = register; this.encoder = encoder;
     }
 
-    @PostMapping("register")
+    @PostMapping("/register")
     public ResponseEntity<StandardResponse<String>> register(@RequestBody RegisterRequest req) {
-        var id = register.handle(new Email(req.email()), encoder.encode(req.password()));
+        UserId id = register.handle(new Email(req.email()), encoder.encode(req.password()));
         return ResponseEntity.ok(StandardResponse.okMsg(id.toString()));
     }
 }

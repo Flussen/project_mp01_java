@@ -5,4 +5,9 @@ public record Email(String value) {
         if (value == null || !value.matches("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$"))
             throw new IllegalArgumentException("invalid_email");
     }
+
+    @Override
+    public String toString(){
+        return value.toString();
+    }
 }

@@ -19,9 +19,12 @@ public final class UserMapper {
 
     public static UserEntity toEntity(User u) {
         var e = new UserEntity();
-        e.setId(u.getId().value()); e.setEmail(u.getEmail().value());
-        e.setPasswordHash(u.getPasswordHash()); e.setEnabled(u.isEnabled());
-        e.setDiscordId(u.getDiscordId()); e.setRoles(u.getRoles()); e.setCreatedAt(u.getCreatedAt());
+        e.setEmail(u.getEmail().value());
+        e.setPasswordHash(u.getPasswordHash());
+        e.setEnabled(u.isEnabled());
+        e.setDiscordId(u.getDiscordId());
+        e.setRoles(u.getRoles());
+        e.setCreatedAt(u.getCreatedAt());
         return e;
     }
 }

@@ -1,12 +1,12 @@
 package com.modding.mp.adapter.in.web.controller;
 
-import org.glassfish.jaxb.core.api.impl.NameConverter.Standard;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.modding.mp.adapter.in.web.request.LoginRequest;
 import com.modding.mp.adapter.in.web.request.RegisterRequest;
 import com.modding.mp.adapter.in.web.response.StandardResponse;
 import com.modding.mp.application.usecase.RegisterUserUseCase;
@@ -25,7 +25,10 @@ public class AuthController {
         this.register = register; this.encoder = encoder;
     }
 
-    // public ResponseEntity<StandardResponse<String>> login(L)
+    @PostMapping("/login")
+    public ResponseEntity<StandardResponse<String>> login(@RequestBody LoginRequest req) {
+        return ResponseEntity.ok(StandardResponse.okMsg("in progres..."));
+    }
 
     @PostMapping("/register")
     public ResponseEntity<StandardResponse<String>> register(@RequestBody RegisterRequest req) {

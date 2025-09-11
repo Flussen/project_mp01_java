@@ -15,24 +15,22 @@ public class User {
     private String passwordHash; 
     private boolean enabled;
     private String discordId;
-    private final Set<String> roles;
+    private final boolean admin;
     private final Instant createdAt;
 
-    public User(UserId id, String username, Email email, String passwordHash, boolean enabled, String discordId, Set<String> roles, Instant createdAt) {
-        if (roles == null || roles.isEmpty()) throw new IllegalArgumentException("rol_required");
+    public User(UserId id, String username, Email email, String passwordHash, boolean enabled, String discordId, boolean isAdmin, Instant createdAt) {
         this.id = id;
         this.username = username;
         this.email = email; this.passwordHash = passwordHash;
         this.enabled = enabled; this.discordId = discordId;
-        this.roles = Set.copyOf(roles);
+        this.admin = isAdmin;
         this.createdAt = createdAt;
     }
 
-    public User(Email email, String username, String passwordHash, boolean enabled, String discordId, Set<String> roles, Instant createdAt) {
-        if (roles == null || roles.isEmpty()) throw new IllegalArgumentException("rol_required");
+    public User(Email email, String username, String passwordHash, boolean enabled, String discordId, boolean isAdmin, Instant createdAt) {
         this.email = email; this.passwordHash = passwordHash;
         this.enabled = enabled; this.discordId = discordId;
-        this.roles = Set.copyOf(roles);
+        this.admin = isAdmin;
         this.createdAt = createdAt;
     }
 

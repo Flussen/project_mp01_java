@@ -14,7 +14,7 @@ public final class UserMapper {
             e.getPasswordHash(),
             e.isEnabled(),
             e.getDiscordId(),
-            e.getRoles(),
+            e.isAdmin(),
             e.getCreatedAt());
     }
 
@@ -25,7 +25,7 @@ public final class UserMapper {
         e.setPasswordHash(u.getPasswordHash());
         e.setEnabled(u.isEnabled());
         e.setDiscordId(u.getDiscordId());
-        e.setRoles(u.getRoles());
+        e.setAdmin(u.isAdmin());
         e.setCreatedAt(u.getCreatedAt());
         return e;
     }

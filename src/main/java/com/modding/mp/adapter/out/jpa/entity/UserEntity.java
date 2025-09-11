@@ -33,8 +33,10 @@ public class UserEntity {
     private String passwordHash;
 
     private boolean enabled;
+    private boolean admin;
+    
     private String discordId;
     private Instant createdAt;
 
-    private Set<String> roles = new HashSet<>();
+    
 }

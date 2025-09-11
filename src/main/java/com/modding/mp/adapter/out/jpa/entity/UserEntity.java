@@ -44,6 +44,4 @@ public class UserEntity {
     
     private String discordId;
     private Instant createdAt;
-
-    
 }

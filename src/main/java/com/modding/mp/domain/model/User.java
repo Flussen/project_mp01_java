@@ -42,7 +42,7 @@ public class User {
         this.products = Collections.emptySet();
     }
 
-    public User(Email email, String username, String passwordHash, boolean enabled, String discordId, boolean isAdmin, Instant createdAt, Set<Product> products) {
+    public User(UserId id, String username, Email email, String passwordHash, boolean enabled, String discordId, boolean isAdmin, Instant createdAt, Set<Product> products) {
         this.email = email; this.passwordHash = passwordHash;
         this.enabled = enabled; this.discordId = discordId;
         this.admin = isAdmin;

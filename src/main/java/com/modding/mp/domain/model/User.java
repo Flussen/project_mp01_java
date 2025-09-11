@@ -35,6 +35,7 @@ public class User {
     }
 
     public User(Email email, String username, String passwordHash, boolean enabled, String discordId, boolean isAdmin, Instant createdAt) {
+        this.username = username;
         this.email = email; this.passwordHash = passwordHash;
         this.enabled = enabled; this.discordId = discordId;
         this.admin = isAdmin;
@@ -43,6 +44,8 @@ public class User {
     }
 
     public User(UserId id, String username, Email email, String passwordHash, boolean enabled, String discordId, boolean isAdmin, Instant createdAt, Set<Product> products) {
+        this.id = id;
+        this.username = username;
         this.email = email; this.passwordHash = passwordHash;
         this.enabled = enabled; this.discordId = discordId;
         this.admin = isAdmin;

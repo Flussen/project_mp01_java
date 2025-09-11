@@ -16,6 +16,7 @@ public class RegisterUserUseCase {
         if(users.existsByEmail(email)) throw new IllegalArgumentException("email is not available");
         User user = new User(email, username, passwordHash, true, null, false, Instant.now());
         User createdUser = users.save(user);
+        System.out.println(createdUser.toString());
         return createdUser.getId();
     }
 }

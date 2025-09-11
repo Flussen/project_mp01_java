@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Repository;
 
+import com.modding.mp.adapter.out.jpa.entity.UserEntity;
 import com.modding.mp.adapter.out.jpa.mapper.UserMapper;
 import com.modding.mp.domain.model.Email;
 import com.modding.mp.domain.model.User;
@@ -22,8 +23,10 @@ public class UserRepositoryJpaAdapter implements UserRepository {
     return repo.findById(id.value()).map(UserMapper::toDomain);
   }
   @Override public User save(User u){
-    var saved = repo.save(UserMapper.toEntity(u));
-    return UserMapper.toDomain(saved);
+    UserEntity saved = repo.save(UserMapper.toEntity(u));
+    User userMapped = UserMapper.toDomain(saved);
+    System.out.println(userMapped.getId());
+    return userMapped;
   }
   @Override public boolean existsByEmail(Email email){ return repo.existsByEmail(email.value()); }
 

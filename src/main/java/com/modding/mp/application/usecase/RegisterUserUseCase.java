@@ -13,7 +13,7 @@ public class RegisterUserUseCase {
     public RegisterUserUseCase(UserRepository users) {this.users = users;}
      
     public UserId handle(String username, Email email, String passwordHash) {
-        if(users.existsByEmail(email)) throw new IllegalArgumentException("email_en_uso");
+        if(users.existsByEmail(email)) throw new IllegalArgumentException("email is not available");
         User user = new User(email, username, passwordHash, true, null, false, Instant.now());
         User createdUser = users.save(user);
         return createdUser.getId();

@@ -13,6 +13,8 @@ import com.modding.mp.application.usecase.RegisterUserUseCase;
 import com.modding.mp.domain.model.Email;
 import com.modding.mp.domain.model.UserId;
 
+import jakarta.validation.Valid;
+
 import org.springframework.web.bind.annotation.PostMapping;
 
 
@@ -26,12 +28,12 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<StandardResponse<String>> login(@RequestBody LoginRequest req) {
+    public ResponseEntity<StandardResponse<String>> login(@RequestBody @Valid LoginRequest req) {
         return ResponseEntity.ok(StandardResponse.okMsg("in progres..."));
     }
 
     @PostMapping("/register")
-    public ResponseEntity<StandardResponse<String>> register(@RequestBody RegisterRequest req) {
+    public ResponseEntity<StandardResponse<String>> register(@RequestBody @Valid RegisterRequest req) {
         UserId id = register.handle(req.username(), new Email(req.email()), encoder.encode(req.password()));
         return ResponseEntity.ok(StandardResponse.okMsg(id.toString()));
     }

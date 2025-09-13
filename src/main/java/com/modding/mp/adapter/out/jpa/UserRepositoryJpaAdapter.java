@@ -24,9 +24,7 @@ public class UserRepositoryJpaAdapter implements UserRepository {
   }
   @Override public User save(User u){
     UserEntity saved = repo.save(UserMapper.toEntity(u));
-    User userMapped = UserMapper.toDomain(saved);
-    System.out.println(userMapped.getId());
-    return userMapped;
+    return UserMapper.toDomain(saved);
   }
   @Override public boolean existsByEmail(Email email){ return repo.existsByEmail(email.value()); }
 

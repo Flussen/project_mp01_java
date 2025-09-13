@@ -42,8 +42,8 @@ public class SecurityConfig {
             // .cors(cors -> {})
             .sessionManagement(sm -> sm.sessionCreationPolicy(STATELESS))
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/v1/auth/**").permitAll()
-                .requestMatchers("/v1/actuator/health", "/v1/error").permitAll()
+                .requestMatchers("/auth/**").permitAll()
+                .requestMatchers("/actuator/health", "/error").permitAll()
                 .anyRequest().authenticated()
             )
             .exceptionHandling(e -> e.authenticationEntryPoint((req, res, ex) -> {
@@ -52,7 +52,7 @@ public class SecurityConfig {
                 res.getWriter().write("{\"error\":\"unauthorized\"}");
             }))
             .addFilterBefore(new AccessTokenFilter(jwtService), UsernamePasswordAuthenticationFilter.class)
-            .addFilterBefore(new RefreshOnlyOnPathFilter(jwtService, "/v1/auth/refresh"), AccessTokenFilter.class)
+            .addFilterBefore(new RefreshOnlyOnPathFilter(jwtService, "/auth/refresh"), AccessTokenFilter.class)
             .build();
     }
 
@@ -86,7 +86,6 @@ public class SecurityConfig {
                     SecurityContextHolder.getContext().setAuthentication(authentication);
                 } catch (Exception e) {
                     SecurityContextHolder.clearContext();
-                    // opcional: devolver 401 inmediato
                     response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                     return;
                 }

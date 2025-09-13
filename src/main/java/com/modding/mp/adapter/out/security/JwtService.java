@@ -12,6 +12,7 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.modding.mp.config.AppProperties;
+import com.modding.mp.domain.model.UserId;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 
 @Service
@@ -42,15 +43,13 @@ public class JwtService {
                 .build();
     }
 
-    public String signAccess(String userId, String username, Set<String> roles) {
+    public String signAccess(UserId userId, String username) {
         var now = Instant.now();
-        var safeRoles = (roles == null) ? Set.<String>of() : roles;
         return JWT.create()
             .withIssuer(issuer)
             .withAudience(audience)
-            .withSubject(userId)
+            .withSubject(userId.toString())
             .withClaim("uname", username)
-            .withArrayClaim("roles", safeRoles.toArray(String[]::new))
             .withClaim("typ", "access")
             .withIssuedAt(Date.from(now))
             .withExpiresAt(Date.from(now.plusSeconds(accessSecs)))
@@ -58,12 +57,12 @@ public class JwtService {
             .sign(alg);
     }
 
-    public String signRefresh(String userId) {
+    public String signRefresh(UserId userId) {
         var now = Instant.now();
         return JWT.create()
             .withIssuer(issuer)
             .withAudience(audience)
-            .withSubject(userId)
+            .withSubject(userId.toString())
             .withClaim("typ", "refresh")
             .withIssuedAt(Date.from(now))
             .withExpiresAt(Date.from(now.plusSeconds(refreshSecs)))

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.modding.mp.adapter.in.web.request.LoginRequest;
 import com.modding.mp.adapter.in.web.request.RegisterRequest;
 import com.modding.mp.adapter.in.web.response.StandardResponse;
+import com.modding.mp.application.usecase.LoginUserUseCase;
 import com.modding.mp.application.usecase.RegisterUserUseCase;
 import com.modding.mp.domain.model.Email;
 import com.modding.mp.domain.model.UserId;
@@ -21,14 +22,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 @RestController @RequestMapping("/auth")
 public class AuthController {
     private final RegisterUserUseCase register;
+    private final LoginUserUseCase login;
     private final PasswordEncoder encoder;
 
-    public AuthController(RegisterUserUseCase register, PasswordEncoder encoder){
-        this.register = register; this.encoder = encoder;
+    public AuthController(RegisterUserUseCase register, LoginUserUseCase login, PasswordEncoder encoder){
+        this.register = register; this.login = login; this.encoder = encoder;
     }
 
     @PostMapping("/login")
     public ResponseEntity<StandardResponse<String>> login(@RequestBody @Valid LoginRequest req) {
+        login.handle(req.username(), req.password(), encoder);
         return ResponseEntity.ok(StandardResponse.okMsg("in progres..."));
     }
 

@@ -8,6 +8,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.auth0.jwt.exceptions.JWTVerificationException;
 
 public class JwtService {
     private final Algorithm alg;
@@ -60,5 +61,28 @@ public class JwtService {
 
     public DecodedJWT verify(String token) {
         return verifier.verify(token);
+    }
+
+    public DecodedJWT verifyAccessToken(String token) {
+        try {
+            DecodedJWT decodedJWT = verifier.verify(token);
+            if (!decodedJWT.getClaim("typ").isNull() && "refresh".equals(decodedJWT.getClaim("typ").asString())) {
+                throw new JWTVerificationException("Token is not an access token");
+            }
+            return decodedJWT;
+        } catch (JWTVerificationException e) {
+            throw new IllegalArgumentException("Invalid access token", e);
+        }
+    }
+
+public void verifyRefreshToken(String token) {
+    try {
+        DecodedJWT decodedJWT = verifier.verify(token);
+        if (decodedJWT.getClaim("typ").isNull() || !"refresh".equals(decodedJWT.getClaim("typ").asString())) {
+            throw new JWTVerificationException("Token is not a refresh token");
+            }
+        } catch (JWTVerificationException e) {
+            throw new IllegalArgumentException("Invalid refresh token", e);
+        }
     }
 }

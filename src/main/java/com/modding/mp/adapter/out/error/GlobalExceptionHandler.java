@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.modding.mp.adapter.in.web.response.StandardError;
 import com.modding.mp.adapter.in.web.response.StandardError.FieldError;
+import com.modding.mp.application.usecase.exceptions.BadRequestException;
 import com.modding.mp.application.usecase.exceptions.EmailAlreadyUsedException;
+import com.modding.mp.application.usecase.exceptions.UnauthorizedException;
 import com.modding.mp.application.usecase.exceptions.UserNotFoundException;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -28,12 +30,12 @@ public class GlobalExceptionHandler {
     private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<StandardError> handleValidation(MethodArgumentNotValidException ex, HttpServletRequest req){
+    public ResponseEntity<StandardError> handleValidation(MethodArgumentNotValidException ex, HttpServletRequest req) {
         List<FieldError> details = ex.getBindingResult()
-        .getFieldErrors()
-        .stream()
-        .map(err -> new FieldError(err.getField(), err.getDefaultMessage()))
-        .toList();
+            .getFieldErrors()
+            .stream()
+            .map(err -> new FieldError(err.getField(), err.getDefaultMessage()))
+            .toList();
 
         var body = StandardError.of(
             "Bad Request",
@@ -42,6 +44,19 @@ public class GlobalExceptionHandler {
             req.getRequestURI(),
             "The request contains invalid fields.",
             details
+        );
+        return ResponseEntity.status(BAD_REQUEST).body(body);
+    }
+
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<StandardError> handleBadRequest(BadRequestException ex, HttpServletRequest req) {
+        var body = StandardError.of(
+            "Bad Request",
+            "BAD_REQUEST",
+            BAD_REQUEST.value(),
+            req.getRequestURI(),
+            ex.getMessage(),
+            null
         );
         return ResponseEntity.status(BAD_REQUEST).body(body);
     }
@@ -79,8 +94,15 @@ public class GlobalExceptionHandler {
      @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<StandardError> handleAccessDenied(AccessDeniedException ex, HttpServletRequest req) {
         var body = StandardError.of("Forbidden", "ACCESS_DENIED", FORBIDDEN.value(), req.getRequestURI(),
-                "No tienes permisos para esta operación.", null);
+                "You do not have permissions for this.", null);
         return ResponseEntity.status(FORBIDDEN).body(body);
+    }
+
+    @ExceptionHandler(UnauthorizedException.class)
+    public ResponseEntity<StandardError> handleUnauthorized(UnauthorizedException ex, HttpServletRequest req) {
+        var body = StandardError.of("Unauthorized", "INVALID_CREDENTIALS", 401,
+            req.getRequestURI(), ex.getMessage(), null);
+        return ResponseEntity.status(401).body(body);
     }
 
     // 404

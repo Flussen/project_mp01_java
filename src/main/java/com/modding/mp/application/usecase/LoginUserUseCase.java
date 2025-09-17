@@ -6,6 +6,9 @@ import org.springframework.stereotype.Service;
 
 import com.modding.mp.adapter.out.security.JwtService;
 import com.modding.mp.adapter.out.security.StringPasswordHasher;
+import com.modding.mp.application.usecase.exceptions.BadRequestException;
+import com.modding.mp.application.usecase.exceptions.UnauthorizedException;
+import com.modding.mp.application.usecase.exceptions.UserNotFoundException;
 import com.modding.mp.domain.model.JWTSession;
 import com.modding.mp.domain.model.User;
 import com.modding.mp.domain.port.out.IUserRepository;
@@ -22,11 +25,11 @@ public class LoginUserUseCase {
     }
 
     public JWTSession handle(String username, String passwordTry) {
-        if(username.isEmpty() || passwordTry.isEmpty()) throw new Error("Error, empty parameters!");
+        if(username.isEmpty() || passwordTry.isEmpty()) throw new BadRequestException("Username and password must be provided");
         Optional<User> user = users.byUsername(username);
 
-        if(!user.isPresent()) throw new Error("User not found!");
-        if(!hasher.matches(passwordTry, user.get().getPasswordHash())) throw new Error("Invalid Password!");
+        if(!user.isPresent()) throw new UserNotFoundException(username);
+        if(!hasher.matches(passwordTry, user.get().getPasswordHash())) throw new UnauthorizedException("Invalid credentials");
 
         String accesToken = jwt.signAccess(user.get().getId(), username);
         String refreshToken = jwt.signRefresh(user.get().getId());

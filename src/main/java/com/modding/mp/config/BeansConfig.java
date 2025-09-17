@@ -21,8 +21,8 @@ public class BeansConfig {
         return new JwtService(props);
     }
 
-    @Bean RegisterUserUseCase registerUserUseCase(IUserRepository users, StringPasswordHasher hasher) {
-        return new RegisterUserUseCase(users, hasher);
+    @Bean RegisterUserUseCase registerUserUseCase(IUserRepository users, StringPasswordHasher hasher, JwtService jwt) {
+        return new RegisterUserUseCase(users, hasher, jwt);
     }
 
     @Bean LoginUserUseCase loginUserUseCase(IUserRepository users, JwtService jwt, StringPasswordHasher hasher) {

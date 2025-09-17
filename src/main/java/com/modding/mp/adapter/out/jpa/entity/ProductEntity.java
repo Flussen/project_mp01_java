@@ -35,6 +35,6 @@ public class ProductEntity {
     @Column(nullable = false, length = 512)
     private String description;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<UserProductEntity> usersIds = new HashSet<>();
 }

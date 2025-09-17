@@ -2,17 +2,13 @@ package com.modding.mp.adapter.in.web.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import com.modding.mp.adapter.in.web.request.LoginRequest;
-import com.modding.mp.adapter.in.web.request.RegisterRequest;
+import com.modding.mp.adapter.in.web.request.*;
 import com.modding.mp.adapter.in.web.response.StandardResponse;
 import com.modding.mp.application.usecase.LoginUserUseCase;
 import com.modding.mp.application.usecase.RegisterUserUseCase;
-import com.modding.mp.domain.model.Email;
-import com.modding.mp.domain.model.UserId;
+import com.modding.mp.domain.model.*;
 
 import jakarta.validation.Valid;
 
@@ -29,14 +25,14 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<StandardResponse<String>> login(@RequestBody @Valid LoginRequest req) {
-        login.handle(req.username(), req.password());
-        return ResponseEntity.ok(StandardResponse.okMsg("in progres..."));
+    public ResponseEntity<StandardResponse<JWTSession>> login(@RequestBody @Valid LoginRequest req) {
+        JWTSession session = login.handle(req.username(), req.password());
+        return ResponseEntity.ok(StandardResponse.ok(session, "Login successful"));
     }
 
     @PostMapping("/register")
-    public ResponseEntity<StandardResponse<String>> register(@RequestBody @Valid RegisterRequest req) {
-        UserId id = register.handle(req.username(), new Email(req.email()), req.password());
-        return ResponseEntity.ok(StandardResponse.okMsg(id.toString()));
+    public ResponseEntity<StandardResponse<JWTSession>> register(@RequestBody @Valid RegisterRequest req) {
+        JWTSession session = register.handle(req.username(), new Email(req.email()), req.password());
+        return ResponseEntity.ok(StandardResponse.ok(session, "Registration successful"));
     }
 }

@@ -39,7 +39,7 @@ public class UserEntity {
     private boolean admin;
     
     // Owned
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<UserProductEntity> productsIds = new HashSet<>();
     
     private String discordId;

@@ -4,7 +4,7 @@ import java.time.Instant;
 import java.util.Base64;
 import java.util.Date;
 
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
@@ -15,7 +15,7 @@ import com.modding.mp.domain.model.UserId;
 import com.modding.mp.domain.port.out.ITokenService;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 
-@Component
+@Service
 public class JwtService implements ITokenService {
     private final Algorithm alg;
     private final JWTVerifier verifier;

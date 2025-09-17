@@ -2,11 +2,14 @@ package com.modding.mp.application.usecase;
 
 import java.time.Instant;
 
+import org.springframework.stereotype.Service;
+
 import com.modding.mp.adapter.out.security.JwtService;
 import com.modding.mp.adapter.out.security.StringPasswordHasher;
 import com.modding.mp.domain.model.*;
 import com.modding.mp.domain.port.out.IUserRepository;
 
+@Service
 public class RegisterUserUseCase {
     private final IUserRepository users;
     private final StringPasswordHasher hasher;

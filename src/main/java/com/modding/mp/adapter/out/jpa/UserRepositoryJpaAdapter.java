@@ -9,10 +9,10 @@ import com.modding.mp.adapter.out.jpa.mapper.UserMapper;
 import com.modding.mp.domain.model.Email;
 import com.modding.mp.domain.model.User;
 import com.modding.mp.domain.model.UserId;
-import com.modding.mp.domain.port.out.UserRepository;
+import com.modding.mp.domain.port.out.IUserRepository;
 
 @Repository
-public class UserRepositoryJpaAdapter implements UserRepository {
+public class UserRepositoryJpaAdapter implements IUserRepository {
   private final StringUserJpaRepo repo;
   public UserRepositoryJpaAdapter(StringUserJpaRepo repo) { this.repo = repo; }
 

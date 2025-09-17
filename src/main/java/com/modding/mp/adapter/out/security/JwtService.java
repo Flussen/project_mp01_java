@@ -3,9 +3,8 @@ package com.modding.mp.adapter.out.security;
 import java.time.Instant;
 import java.util.Base64;
 import java.util.Date;
-import java.util.Set;
 
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
@@ -13,10 +12,11 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.modding.mp.config.AppProperties;
 import com.modding.mp.domain.model.UserId;
+import com.modding.mp.domain.port.out.ITokenService;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 
-@Service
-public class JwtService {
+@Component
+public class JwtService implements ITokenService {
     private final Algorithm alg;
     private final JWTVerifier verifier;
     private final String issuer;
@@ -49,7 +49,7 @@ public class JwtService {
             .withIssuer(issuer)
             .withAudience(audience)
             .withSubject(userId.toString())
-            .withClaim("uname", username)
+            .withClaim("username", username)
             .withClaim("typ", "access")
             .withIssuedAt(Date.from(now))
             .withExpiresAt(Date.from(now.plusSeconds(accessSecs)))

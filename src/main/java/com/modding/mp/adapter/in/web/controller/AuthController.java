@@ -23,21 +23,20 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class AuthController {
     private final RegisterUserUseCase register;
     private final LoginUserUseCase login;
-    private final PasswordEncoder encoder;
 
     public AuthController(RegisterUserUseCase register, LoginUserUseCase login, PasswordEncoder encoder){
-        this.register = register; this.login = login; this.encoder = encoder;
+        this.register = register; this.login = login;
     }
 
     @PostMapping("/login")
     public ResponseEntity<StandardResponse<String>> login(@RequestBody @Valid LoginRequest req) {
-        login.handle(req.username(), req.password(), encoder);
+        login.handle(req.username(), req.password());
         return ResponseEntity.ok(StandardResponse.okMsg("in progres..."));
     }
 
     @PostMapping("/register")
     public ResponseEntity<StandardResponse<String>> register(@RequestBody @Valid RegisterRequest req) {
-        UserId id = register.handle(req.username(), new Email(req.email()), encoder.encode(req.password()));
+        UserId id = register.handle(req.username(), new Email(req.email()), req.password());
         return ResponseEntity.ok(StandardResponse.okMsg(id.toString()));
     }
 }

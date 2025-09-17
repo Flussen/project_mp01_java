@@ -2,21 +2,22 @@ package com.modding.mp.application.usecase;
 
 import java.time.Instant;
 
-
-import com.modding.mp.domain.model.Email;
-import com.modding.mp.domain.model.User;
-import com.modding.mp.domain.model.UserId;
-import com.modding.mp.domain.port.out.UserRepository;
+import com.modding.mp.adapter.out.security.StringPasswordHasher;
+import com.modding.mp.domain.model.*;
+import com.modding.mp.domain.port.out.IUserRepository;
 
 public class RegisterUserUseCase {
-    private final UserRepository users;
-    public RegisterUserUseCase(UserRepository users) {this.users = users;}
+    private final IUserRepository users;
+    private final StringPasswordHasher hasher;
+    public RegisterUserUseCase(IUserRepository users, StringPasswordHasher hasher) {this.users = users; this.hasher = hasher; }
      
-    public UserId handle(String username, Email email, String passwordHash) {
+    public UserId handle(String username, Email email, String password) {
         if(users.existsByEmail(email)) throw new IllegalArgumentException("email is not available");
-        User user = new User(email, username, passwordHash, true, null, false, Instant.now());
+
+        String passwordHashed = hasher.hash(password);
+        User user = new User(email, username, passwordHashed, true, null, false, Instant.now());
         User createdUser = users.save(user);
-        System.out.println(createdUser.toString());
+
         return createdUser.getId();
     }
 }

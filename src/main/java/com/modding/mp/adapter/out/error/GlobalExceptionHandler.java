@@ -15,9 +15,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.modding.mp.adapter.in.web.response.StandardError;
 import com.modding.mp.adapter.in.web.response.StandardError.FieldError;
-import com.modding.mp.application.usecase.EmailAlreadyUsedException;
-import com.modding.mp.application.usecase.UserNotFoundException;
-
+import com.modding.mp.application.usecase.exceptions.EmailAlreadyUsedException;
+import com.modding.mp.application.usecase.exceptions.UserNotFoundException;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolationException;
@@ -84,7 +83,7 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(FORBIDDEN).body(body);
     }
 
-    // 404 - ejemplo de dominio
+    // 404
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<StandardError> handleUserNotFound(UserNotFoundException ex, HttpServletRequest req) {
         var body = StandardError.of("Not Found", "USER_NOT_FOUND", NOT_FOUND.value(), req.getRequestURI(),
@@ -92,7 +91,7 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(NOT_FOUND).body(body);
     }
 
-    // 409 - violaciones de unicidad (db) o reglas de negocio
+    // 409
     @ExceptionHandler({ EmailAlreadyUsedException.class, DataIntegrityViolationException.class })
     public ResponseEntity<StandardError> handleConflict(Exception ex, HttpServletRequest req) {
         var body = StandardError.of("Conflict", "CONFLICT", CONFLICT.value(), req.getRequestURI(),
@@ -100,10 +99,9 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(CONFLICT).body(body);
     }
 
-    // 500 - último recurso
+    // 500
     @ExceptionHandler(Exception.class)
     public ResponseEntity<StandardError> handleUnexpected(Exception ex, HttpServletRequest req) {
-        // Loguea con stack trace para diagnóstico (no lo devuelvas al cliente)
         log.error("Unexpected error processing {} {}", req.getMethod(), req.getRequestURI(), ex);
 
         var body = StandardError.of("Internal Server Error", "UNEXPECTED_ERROR", INTERNAL_SERVER_ERROR.value(),

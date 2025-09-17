@@ -1,4 +1,4 @@
-package com.modding.mp.application.usecase;
+package com.modding.mp.application.usecase.exceptions;
 
 import org.springframework.stereotype.Component;
 

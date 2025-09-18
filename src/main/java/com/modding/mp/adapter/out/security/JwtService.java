@@ -86,14 +86,14 @@ public class JwtService implements ITokenService {
     }
 }
 
-public void verifyRefreshToken(String token) {
-    try {
-        DecodedJWT decodedJWT = verifier.verify(token);
-        if (decodedJWT.getClaim("typ").isNull() || !"refresh".equals(decodedJWT.getClaim("typ").asString())) {
-            throw new JWTVerificationException("Token is not a refresh token");
+    public void verifyRefreshToken(String token) {
+        try {
+            DecodedJWT decodedJWT = verifier.verify(token);
+            if (decodedJWT.getClaim("typ").isNull() || !"refresh".equals(decodedJWT.getClaim("typ").asString())) {
+                throw new JWTVerificationException("Token is not a refresh token");
+                }
+            } catch (JWTVerificationException e) {
+                throw new IllegalArgumentException("Invalid refresh token", e);
             }
-        } catch (JWTVerificationException e) {
-            throw new IllegalArgumentException("Invalid refresh token", e);
         }
-    }
 }

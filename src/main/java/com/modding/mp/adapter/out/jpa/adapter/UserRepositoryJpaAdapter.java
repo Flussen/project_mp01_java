@@ -1,4 +1,4 @@
-package com.modding.mp.adapter.out.jpa;
+package com.modding.mp.adapter.out.jpa.adapter;
 
 import java.util.Optional;
 
@@ -6,15 +6,14 @@ import org.springframework.stereotype.Repository;
 
 import com.modding.mp.adapter.out.jpa.entity.UserEntity;
 import com.modding.mp.adapter.out.jpa.mapper.UserMapper;
-import com.modding.mp.domain.model.Email;
-import com.modding.mp.domain.model.User;
-import com.modding.mp.domain.model.UserId;
+import com.modding.mp.domain.model.*;
+import com.modding.mp.adapter.out.jpa.repository.SpringDataUserRepository;
 import com.modding.mp.domain.port.out.IUserRepository;
 
 @Repository
 public class UserRepositoryJpaAdapter implements IUserRepository {
-  private final StringUserJpaRepo repo;
-  public UserRepositoryJpaAdapter(StringUserJpaRepo repo) { this.repo = repo; }
+  private final SpringDataUserRepository repo;
+  public UserRepositoryJpaAdapter(SpringDataUserRepository repo) { this.repo = repo; }
 
   @Override public Optional<User> byEmail(Email email){
     return repo.findByEmail(email.value()).map(UserMapper::toDomain);

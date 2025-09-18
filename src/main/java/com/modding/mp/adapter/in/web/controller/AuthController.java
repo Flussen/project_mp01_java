@@ -35,4 +35,24 @@ public class AuthController {
         JWTSession session = register.handle(req.username(), new Email(req.email()), req.password());
         return ResponseEntity.ok(StandardResponse.ok(session, "Registration successful"));
     }
+
+    @PostMapping("/logout")
+    public ResponseEntity<StandardResponse<String>> logout() {
+        // TODO: Implement logout logic (e.g., invalidate token)
+        return ResponseEntity.ok(StandardResponse.ok("Logout successful"));
+    }
+
+    @PostMapping("/refresh-token")
+    public ResponseEntity<StandardResponse<String>> refreshToken() {
+
+        // TODO: Implement token refresh logic
+        return ResponseEntity.ok(StandardResponse.ok("Token refreshed successfully"));
+    }
+
+    @PostMapping("/forgot-password")
+    public ResponseEntity<StandardResponse<String>> forgotPassword() {
+
+        // TODO: Implement forgot password logic
+        return ResponseEntity.ok(StandardResponse.ok("Password reset link sent"));
+    }
 }

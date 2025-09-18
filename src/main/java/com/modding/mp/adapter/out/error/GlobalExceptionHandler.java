@@ -15,10 +15,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.modding.mp.adapter.in.web.response.StandardError;
 import com.modding.mp.adapter.in.web.response.StandardError.FieldError;
-import com.modding.mp.application.usecase.exceptions.BadRequestException;
-import com.modding.mp.application.usecase.exceptions.EmailAlreadyUsedException;
-import com.modding.mp.application.usecase.exceptions.UnauthorizedException;
-import com.modding.mp.application.usecase.exceptions.UserNotFoundException;
+import com.modding.mp.application.usecase.exceptions.*;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolationException;
